@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/login.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <!-- AXIOS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>로그인</title>
+  </head>
+  <body>
+    <div class="BigLoginContainer">
+      <h1>Login</h1>
+      <div class="contant">
+        <div class="flex-wrap">
+          <input
+            type="text"
+            placeholder="아이디"
+            maxlength="8"
+            class="inputID"
+            id="inputID"
+          />
+
+          <input
+            type="password"
+            placeholder="비밀번호"
+            maxlength="16"
+            class="inputPASS"
+            id="inputPASS"
+          />
+          <button class="loginBtn" id="loginBtn" type="button">로그인</button>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+    <script>
+      const id = document.getElementById("inputID");
+      const password = document.getElementById("inputPASS");
+      const loginBtn = document.getElementById("loginBtn");
+      const register = document.getElementById("register");
+      password.addEventListener("input", function (e) {
+        password.value = e.target.value;
+      });
+      id.addEventListener("input", function (e) {
+        id.value = e.target.value;
+      });
+
+      loginBtn.addEventListener("click", function () {
+        axios
+          .post("/auth/login", {
+            userid: id.value,
+            password: password.value,
+          })
+          .then((res) => {
+            console.log(res.data);
+            console.log(res.data.userid);
+            const ddd = localStorage.getItem("id");
+            if (ddd != null) {
+              localStorage.clear();
+              localStorage.setItem("id", res.data.userid);
+              location.href = "./";
+            } else {
+              localStorage.setItem("id", res.data.userid);
+            }
+
+            // location.href = "/";
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        console.log(id.value);
+        console.log(password.value);
+      });
+    </script>
+  </body>
+</html>

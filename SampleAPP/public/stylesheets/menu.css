@@ -1,0 +1,24 @@
+body {
+  background-color: #d9d9d9;
+}
+.menuALL {
+  width: 76%;
+  height: 100%;
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.menu {
+  margin-left: 30%;
+  width: 170px;
+  height: 181px;
+  background-color: white;
+}
+.menu > img {
+  width: 80px;
+  width: 80px;
+}
+.menu > button {
+  width: 80px;
+  width: 80px;
+}

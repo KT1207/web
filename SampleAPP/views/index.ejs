@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/nav.css" />
+    <link rel="stylesheet" href="stylesheets/contant.css" />
+    <title>KTLITER</title>
+  </head>
+  <body>
+    <div class="ALL">
+      <div class="nav">
+        <a href="">
+          <img src="images/KTLITER.png" />
+        </a>
+        <li class="fromLeftM">
+          <a href="./KTLITER" style="text-decoration: none">KTLITER</a>
+        </li>
+        <li class="fromLeft" style="text-decoration: none">
+          <a href="/menu">MEMU</a>
+        </li>
+        <li class="fromLeft" style="text-decoration: none">
+          <a href="/login">Login</a>
+        </li>
+        <li class="fromLeftB" style="text-decoration: none">
+          <a href="/axios">UPMENU</a>
+        </li>
+      </div>
+      <div class="contant">
+        <div class="liquidate">
+          <div id="backet">장바구니</div>
+          <div id="money">
+            \
+            <p></p>
+          </div>
+
+          <div id="liquidate-check">
+            <li
+              class="fromLeftBM"
+              style="list-style: none; text-decoration: none"
+            >
+              <a
+                onclick="
+              alert(`${allPrice}원이 결제되었습니다`);
+              localStorage.clear(`allPrice`);
+              "
+              >
+                결제하기
+              </a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let allPrice = localStorage.getItem("allPrice");
+      if (allPrice == (null || undefined)) {
+        allPrice = "0";
+      }
+      const sumTag = document.getElementById("money");
+      sumTag.innerText = `\\ ${allPrice}원`;
+    </script>
+  </body>
+</html>

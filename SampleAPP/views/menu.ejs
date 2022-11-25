@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>KTLITER</title>
+    <link rel="stylesheet" href="stylesheets/nav.css" />
+    <link rel="stylesheet" href="stylesheets/menu.css" />
+  </head>
+  <body>
+    <div class="ALL">
+      <div class="nav" style="background-color: white">
+        <a href="">
+          <img src="images/KTLITER.png" />
+        </a>
+        <li class="fromLeftM">
+          <a href="/KTLITER" style="text-decoration: none">KTLITER</a>
+        </li>
+        <li class="fromLeft" style="text-decoration: none">
+          <a href="/menu">MEMU</a>
+        </li>
+        <li class="fromLeft" style="text-decoration: none">
+          <a href="/login">Login</a>
+        </li>
+        <li class="fromLeftB" style="text-decoration: none">
+          <a href="/axios">UPMENU</a>
+        </li>
+      </div>
+    </div>
+    <div class="menuAlL">
+      <% for (let menu of menus) { %>
+      <div class="menu">
+        <h1><%=menu.title%></h1>
+        <div class="menuid">
+          <a
+            onclick="
+        if(localStorage.getItem(`id`) == (null||undefined)){
+          alert(`권한이 없습니다.`);
+          location.href=`./`;
+        }
+        else{
+          location.href=`./menu/modify/<%=menu.memoid%>`;
+        }
+          "
+          >
+            메뉴명: <%=menu.title%>
+          </a>
+        </div>
+        <div>가격: <%=menu.content%></div>
+        <div><img src="<%=menu.fileUrl%>" /></div>
+
+        <button
+          class="delect"
+          onclick="
+        console.log(`id : <%=menu.memoid%>`);
+        if(localStorage.getItem(`id`) == (null||undefined)){
+          alert(`권한이 존재 하지 않습니다.`)
+        }
+        else{
+          axios.delete(`/memo/delete/${<%=menu.memoid%>}`).then((res)=>{
+            console.log(res.data);
+            location.href = `./`;
+          }).catch((err)=>{
+            console.log(err);
+          });
+          
+        }
+        "
+        >
+          삭제
+        </button>
+        <button
+          class="backetadd"
+          onclick="
+        addMenu(`<%=menu.title%>`,`<%=menu.content%>`);
+        "
+        >
+          추가
+        </button>
+      </div>
+      <%}%>
+      <script>
+        const addMenu = (menuName, menuPrice) => {
+          console.log(menuName, menuPrice);
+          let priceArr = 0;
+          priceArr = priceArr + menuPrice;
+
+          let allPrice = 0;
+
+          allPrice += Number(priceArr);
+          console.log(allPrice);
+
+          if (localStorage.getItem("allPrice") == (null || undefined)) {
+            localStorage.setItem("allPrice", allPrice);
+          } else {
+            const before = Number(localStorage.getItem("allPrice"));
+            localStorage.clear("allPrice");
+            localStorage.setItem("allPrice", Number(allPrice + before));
+          }
+        };
+      </script>
+    </div>
+  </body>
+</html>

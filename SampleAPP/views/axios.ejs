@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <!-- JQUERY-->
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"
+    ></script>
+    <!-- AXIOS-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <form id="form">
+      <label for="title">Title</label
+      ><input type="text" name="title" id="title" />
+      <br />
+      <label for="message">Price</label>
+      <input type="number" name="message" id="message" />
+      <input type="file" name="file" id="file" />
+      <br />
+      <button type="button" id="upload">upload</button>
+    </form>
+    <div>
+      <h3>등록된 제목 :</h3>
+      <p id="result_title"></p>
+      <h3>등록된 가격</h3>
+      <p id="result_message"></p>
+      <h3></h3>
+      <p id="result_originalFileName"></p>
+      <h3>등록된 이미지</h3>
+      <img src="" alt="" id="result_img" />
+      <div id="result"></div>
+      <script>
+        const button = document.getElementById("upload");
+        const title = document.getElementById("title");
+        const message = document.getElementById("message");
+        const id = localStorage.getItem("id");
+        if (id == (null || undefined)) {
+          alert("로그인 되지 않은사용자입니다");
+          location.href = "../";
+        }
+        title.addEventListener("input", function () {
+          title.value = title.value;
+        });
+        message.addEventListener("input", function () {
+          message.value = message.value;
+        });
+
+        button.addEventListener("click", () => {
+          if ((title.value || message.value) == (null || undefined || "")) {
+            alert("제목 또는 가격이 잘못되었습니다");
+          } else {
+            const form = document.getElementById("form");
+            const formData = new FormData(form);
+            console.log(form);
+            console.log(formData);
+
+            const id = localStorage.getItem("id");
+
+            axios
+              .post(`/axios/apiUpload/${id}`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+              })
+              .then((res) => {
+                console.log(res);
+                console.log(res.data);
+                document.getElementById("result_title").innerText =
+                  res.data.title;
+                document.getElementById("result_message").innerText =
+                  res.data.message;
+                document.getElementById("result_originalFileName").innerText =
+                  res.data.originalFileName;
+                document
+                  .getElementById("result_img")
+                  .setAttribute("src", res.data.fileUrl);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
