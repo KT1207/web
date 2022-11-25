@@ -5,7 +5,7 @@ const sql = require("../models/user-sql");
 const memoSql = require("../models/memo-sql");
 var router = express.Router();
 /* GET home page. */
-router.get("/" || "/index", function (req, res, next) {
+router.get("/", function (req, res, next) {
   res.render("index");
 });
 try {
